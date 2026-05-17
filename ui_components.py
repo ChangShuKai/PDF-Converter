@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QListWidget, QAbstractItemView, QFrame, QVBoxLayout, QLabel, QPushButton
-from PyQt6.QtCore import Qt, pyqtSignal, QMimeData
-from PyQt6.QtGui import QDragEnterEvent, QDropEvent
+from PyQt6.QtCore import Qt, pyqtSignal, QMimeData, QSize
+from PyQt6.QtGui import QDragEnterEvent, QDropEvent, QIcon
 import os
 
 class DraggableListWidget(QListWidget):
@@ -32,12 +32,13 @@ class FileDropArea(QFrame):
         layout = QVBoxLayout(self)
         layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
+        from styles import Styles
         self.title_label = QLabel(title)
-        self.title_label.setStyleSheet("font-size: 18px; font-weight: bold; color: #f8fafc;")
+        self.title_label.setStyleSheet(Styles.LABEL_TITLE + "font-size: 18px;")
         layout.addWidget(self.title_label, 0, Qt.AlignmentFlag.AlignCenter)
         
         self.subtitle_label = QLabel(subtitle)
-        self.subtitle_label.setStyleSheet("font-size: 13px; color: #94a3b8;")
+        self.subtitle_label.setStyleSheet(Styles.LABEL_SUBTITLE)
         layout.addWidget(self.subtitle_label, 0, Qt.AlignmentFlag.AlignCenter)
 
     def mousePressEvent(self, event):
@@ -76,5 +77,10 @@ class GlassButton(QPushButton):
         if primary:
             self.setStyleSheet(Styles.BUTTON_PRIMARY)
         else:
-            # secondary style could be added here
-            self.setStyleSheet(Styles.BUTTON_PRIMARY) # default to primary for now
+            self.setStyleSheet(Styles.SIDEBAR_BUTTON)
+        self.setCursor(Qt.CursorShape.PointingHandCursor)
+
+    def set_active(self, active):
+        self.setProperty("active", "true" if active else "false")
+        self.style().unpolish(self)
+        self.style().polish(self)
