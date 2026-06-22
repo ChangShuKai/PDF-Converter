@@ -34,7 +34,7 @@ class FileDropArea(QFrame):
         
         from styles import Styles
         self.title_label = QLabel(title)
-        self.title_label.setStyleSheet(Styles.LABEL_TITLE + "font-size: 18px;")
+        self.title_label.setStyleSheet(f"QLabel {{ color: {Styles.TEXT_COLOR}; font-size: 18px; font-weight: 800; letter-spacing: 0.5px; }}")
         layout.addWidget(self.title_label, 0, Qt.AlignmentFlag.AlignCenter)
         
         self.subtitle_label = QLabel(subtitle)
